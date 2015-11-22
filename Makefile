@@ -1,23 +1,27 @@
-all: fsbl
+Sources=main.cpp drawbdparams.cpp toyflvpdf.cpp toycppdf.cpp toydbldalitzpdf.cpp toydbldalitzgen.cpp toydbldalitzfit.cpp abstoydbldalitz.cpp
+Executable=fsbl
+CFlags=-c -Wall -g -Iinc -std=c++11 -I. `root-config --cflags`
+LDFlags= -I. -Wl,--no-as-needed `root-config --glibs` -lm -lstdc++ -lRooFit -lRooFitCore -ldalitz
+ObjectDir=obj/
+SourceDir=src/
+BinDir=bin/
 
-fsbl: main.o drawbdparams.o toyflvpdf.o toycppdf.o toydbldalitzpdf.o
-	g++ main.o drawbdparams.o toyflvpdf.o toycppdf.o toydbldalitzpdf.o -I. -Wl,--no-as-needed `root-config --glibs` -Wl,-rpath=/home/vitaly/B0toD0pipi/libDalitz -lm -lstdc++ -lRooFit -lRooFitCore -ldalitz -o fsbl
+CC=g++
+RM=rm
 
-main.o: main.cpp
-	g++ -c main.cpp -I. `root-config --cflags`
+#!!!!!DO NOT EDIT ANYTHING UNDER THIS LINE!!!!!
+Objects=$(Sources:.cpp=.o)
+CSources=$(addprefix $(SourceDir),$(Sources))
+CObjects=$(addprefix $(ObjectDir),$(Objects))
+CExecutable=$(addprefix $(BinDir),$(Executable))
 
-drawbdparams.o: drawbdparams.cpp
-	g++ -c drawbdparams.cpp -I. `root-config --cflags`
+all: $(CSources) $(CExecutable)
 
-toyflvpdf.o: toyflvpdf.cpp
-	g++ -c toyflvpdf.cpp -std=c++11 -I. `root-config --cflags`
+$(CExecutable): $(CObjects)
+	$(CC) $(LDFlags) $(CObjects) -o $@
 
-toycppdf.o: toycppdf.cpp
-	g++ -c toycppdf.cpp -std=c++11 -I. `root-config --cflags`
-
-toydbldalitzpdf.o: toydbldalitzpdf.cpp
-	g++ -c toydbldalitzpdf.cpp -std=c++11 -I. `root-config --cflags`
+$(ObjectDir)%.o: $(SourceDir)%.cpp
+	$(CC) $(CFlags) $< -o $@
 
 clean:
-	rm -rf *.o fsbl
-
+	$(RM) $(CObjects)
