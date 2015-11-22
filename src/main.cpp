@@ -11,8 +11,6 @@
 #include "TFile.h"
 #include "RooArgSet.h"
 
-//#include "dalitzmodel.h"
-
 using namespace std;
 
 void DrawBins(SymDalitzModel& model,const string& label){
@@ -94,9 +92,8 @@ int main(int argc, char** argv){
 //  cout << "  " << real(amp1) << " " << imag(amp1) << endl;
 //  cout << "  " << real(amp2) << " " << imag(amp2) << endl;
 
-//  KspipiModel model1;
-//  DrawBins(model1,"kspipi");
-
+//  KspipiModel model;
+//  B0toD0pipiModel model;
 //  DalitzMCIntegral mcint(model);
 //  double val,err;
 //  mcint.CalcIntegral(val,err);
@@ -104,7 +101,6 @@ int main(int argc, char** argv){
 //  vector<double> errs;
 //  mcint.CalcBranchings(vals,errs);
 
-//  B0toD0pipiModel model;
 //  const string label("d0pipi");
 //  DrawBins(model,label);
 //  const string csname("kspipi_cs_model");
