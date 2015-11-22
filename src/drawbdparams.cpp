@@ -95,12 +95,12 @@ void DrawBDParams::DrawBDP(const string& infile,const string& outname,const int 
       break;
     case 2:
       bin_hist->SetBinContent(bin_hist->FindBin(mp,mbc),bin);
-      mbc = phsp.mBC(mm,mp);
+      mbc = phsp.mBCsq(mm,mp);
       bin_hist->SetBinContent(bin_hist->FindBin(mm,mbc),bin);
       break;
     case 3:
       bin_hist->SetBinContent(bin_hist->FindBin(mm,mbc),bin);
-      mbc = phsp.mBC(mm,mp);
+      mbc = phsp.mBCsq(mm,mp);
       bin_hist->SetBinContent(bin_hist->FindBin(mp,mbc),bin);
       break;
     default:

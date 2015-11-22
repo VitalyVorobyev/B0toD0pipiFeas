@@ -14,8 +14,7 @@
 #include <sstream>
 #include <string>
 
-#include "../libDalitz/libdalitz.h"
-#include "../libDalitz/dalitzphasespace.h"
+#include "../libDalitz/src/libdalitz.h"
 
 class DrawBDParams{
 public:
