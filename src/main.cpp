@@ -1,133 +1,199 @@
-#include "../libDalitz/src/libdalitz.h"
-#include "../libDalitz/src/kspipimodel.h"
-#include "../libDalitz/src/dalitzmcintegral.h"
-
-#include "drawbdparams.h"
-#include "toydbldalitzgen.h"
+/** Copyright 2017 Vitaly Vorobyev
+ ** @file main.cpp
+ **
+ ** @brief This message displayed in Doxygen Files index
+ **
+ ** @author Vitaly Vorobyev
+ ** Contact: vit.vorobiev@gmail.com
+ **
+ **/
 
 #include <fstream>
+#include <string>
 
-#include "TTree.h"
 #include "TFile.h"
-#include "RooArgSet.h"
 
-using namespace std;
+#include "mylibs/libDalitz/kspipimodel.h"
+#include "mylibs/libDalitz/dalitzmcintegral.h"
 
-void DrawBins(SymDalitzModel& model,const string& label){
-  ModelIntegral integrator(&model);
-  integrator.SetGridSize(1000);
-  DrawBDParams drawpar;
-  vector<double> C,S,K,Kb;
-  integrator.Calculate(label,C,S,K,Kb);
-  const string fname = label + string("_binning.txt");
-  const string dpname = label + string("_binning");
-  drawpar.DrawBinsmABmAC(fname,dpname);
-  drawpar.DrawBinsmABmBC(fname,dpname);
-  return;
+#include "./toytools.h"
+#include "./asymtotictools.h"
+
+typedef std::string str;
+typedef std::vector<double> vectd;
+// typedef std::vector<int>    vecti;
+
+bool m_model = false;
+bool m_gen   = false;
+bool m_fit   = false;
+bool m_sim   = false;
+bool m_notag = false;
+bool m_flv   = false;
+bool m_cp    = false;
+bool m_dd    = false;
+
+int parse_input(int argc, char** argv) {
+    str param;
+    for (int i = 0; i < argc; i++) {
+        param = str(argv[i]);
+        if (param == "model") {
+            m_model = true;
+            continue;
+        }
+        if (param == "gen") {
+            m_gen = true;
+            continue;
+        }
+        if (param == "fit") {
+            m_fit = true;
+            continue;
+        }
+        if (param == "dd") {
+            m_dd = true;
+            continue;
+        }
+        if (param == "cp") {
+            m_cp = true;
+            continue;
+        }
+        if (param == "notag") {
+            m_notag = true;
+            continue;
+        }
+        if (param == "flv") {
+            m_flv = true;
+            continue;
+        }
+        if (param == "sim") {
+            m_sim = true;
+            continue;
+        }
+    }
+    return 0;
 }
 
-void DrawKspipiBins(void){
-  KspipiModel model;
-  const string label("kspipi_new");
-//  const string label("kspipi_kstar_rho");
-  DrawBins(model,label);
-  return;
-}
+int main(int argc, char** argv) {
+//  ToyTools::DrawKspipiBins();
+    ToyTools::DrawKuzBins();
+////    return 0;
+    const str klabel("kuz_bdpp_broken");
+    vectd mABsqv;
+    vectd mACsqv;
+    const int NEve = 10000;
+    ToyTools::GenerateKuzminPlot(NEve, &mABsqv, &mACsqv);
+    ToyTools::SaveDPTree(klabel, mABsqv, mACsqv);
+    ToyTools::GetAKuzBr();
 
-void DrawB0toD0pipiBins(void){
-  B0toD0pipiModel model;
-  const string label("d0pipi_D2_rho");
-  DrawBins(model,label);
-  return;
-}
-
-void GenerateDalitzPlot(const DalitzModel& model, const int NEvents,vector<double>& mABsqv,vector<double>& mACsqv){
-  DalitzGenerator* generator = new DalitzGenerator(model);
-  generator->Generate(NEvents,mABsqv,mACsqv);
-  return;
-}
-
-void GenerateKspipiDP(const int NEvents,vector<double>& mABsqv,vector<double>& mACsqv){
-  KspipiModel model;
-  GenerateDalitzPlot(model,NEvents,mABsqv,mACsqv);
-  return;
-}
-
-void SaveDPTree(const string& label,const vector<double>& mABsqv,const vector<double>& mACsqv){
-  stringstream out;
-  out.str(""); out << "DPTree_" << label << ".root";
-  TFile* file = new TFile(out.str().c_str(),"RECREATE");
-  TTree* tree = new TTree("tree","tree");
-  double mABsq, mACsq;
-  tree->Branch("mp",&mABsq,"mp/d");
-  tree->Branch("mm",&mACsq,"mm/d");
-  for(int i=0; i<(int)mABsqv.size(); i++){
-    mABsq = mABsqv[i]; mACsq = mACsqv[i];
-    tree->Fill();
-  }
-  tree->Write();
-  file->Close();
-  return;
-}
-
-int main(int argc, char** argv){
-//  DalitzPhaseSpace phsp(m_D0_Mass,0.497614,0.13957018,0.13957018);
-
-//  KspipiModel model1;
-//  DalitzModel1 model2;
-
-//  double mp,mm;
-//  for(int i=0; i<1e6; i++){
-//    rndm_point.GetPoint(mp,mm);
-//    model1.Amp(mp,mm);
-//  }
-
-//  B0toD0pipiModel model;
-//  RandomDalitzPoint rndm_point(model);
-//  rndm_point.GetPoint(mp,mm);
-
-//  const EvtComplex amp1 = model.Amp(mp,mm);
-//  const EvtComplex amp2 = model2.Amp(mp,mm);
-//  cout << mp << " " << mm << ":" << endl;
-//  cout << "  " << real(amp1) << " " << imag(amp1) << endl;
-//  cout << "  " << real(amp2) << " " << imag(amp2) << endl;
-
+  //  ToyTools::GammaUBFit();
+//  return 0;
 //  KspipiModel model;
-//  B0toD0pipiModel model;
-//  DalitzMCIntegral mcint(model);
-//  double val,err;
-//  mcint.CalcIntegral(val,err);
-//  vector<double> vals;
-//  vector<double> errs;
-//  mcint.CalcBranchings(vals,errs);
+//  AsymtoticTools astools(&model);
+//  astools.Fill();
 
-//  const string label("d0pipi");
-//  DrawBins(model,label);
-//  const string csname("kspipi_cs_model");
-//  drawpar.DrawCS(C,S,csname);
-//  const string kname("kspipi_k_model");
-//  drawpar.DrawK(K,Kb,kname);
+//  TFile* ofile = new TFile("asbins.root","RECREATE");
+//  TH1I* h1 = astools.GetHist();
+//  TH2D* h2 = astools.GetMap();
+//  TH2D* h3 = astools.GetWeights();
+//  TTree* t = astools.GetTree();
+////  astools.GetHist(h1);
+////  astools.GetMap(h2);
+////  astools.GetWeights(h3);
+//  h1->Print();
 
-//  DrawB0toD0pipiBins();
-//  DrawKspipiBins();
+//  h1->Write();
+//  h2->Write();
+//  h3->Write();
+//  t->Write();
 
-//  vector<double> mABsqv;
-//  vector<double> mACsqv;
-//  const int NEve = 10000;
+//  ofile->Close();
 
-//  GenerateKspipiDP(NEve,mABsqv,mACsqv);
-//  GenerateDalitzPlot(model,NEve,mABsqv,mACsqv);
-//  SaveDPTree(label,mABsqv,mACsqv);
+//  ToyTools::InitTools();
+//  if(parse_input(argc,argv)) return -1;
+//  if(m_model){
+//    B0toD0pipiModel model(B0toD0pipiModelType::Belle);
+//    DalitzMCIntegral mcint(model);
+//    vector<double> vals;
+//    vector<double> errs;
+//    mcint.CalcBranchings(vals,errs);
 
-//  ofstream ofile("out.txt",ofstream::out);
-//  for(int i=0; i<(int)mABsqv.size(); i++){
-//    ofile << mABsqv[i]  << " " << mACsqv[i] << endl;
+//    const str label("d0pipi");
+//    // Calculate binned parameters and show the result
+//    ToyTools::DrawBins(model,label);
+
+//    const str label("bdk");
+//    vectd mABsqv;
+//    vectd mACsqv;
+//    vecti flvv;
+//    const int NEve = 10000;
+//    ToyTools::Generate_BDK_DKspipiDP(NEve,mABsqv,mACsqv,flvv);
+//////    ToyTools::GenerateDalitzPlot(model,NEve,mABsqv,mACsqv);
+//    ToyTools::SaveDPTree(label,mABsqv,mACsqv,flvv);
+//////    ToyTools::GenerateEachResonance(model,10000);
+
+
+//    cout << "A(0.77,1.50) = " << abs(model.Amp(0.77,1.50)) << endl;
+//    cout << "A(1.50,0.77) = " << abs(model.Amp(1.50,0.77)) << endl;
+//    DalitzMCIntegral mcint(model);
+//    vector<double> vals;
+//    vector<double> errs;
+//    mcint.CalcBranchings(vals,errs);
+
+//    const str label("kspp");
+//    ToyTools::DrawKspipiBins();
+//    vector<double> mABsqv;
+//    vector<double> mACsqv;
+//    ToyTools::GenerateKspipiDP(10000,mABsqv,mACsqv);
+//    ToyTools::SaveDPTree(label,mABsqv,mACsqv);
+
+//    const str label("kspp");
+    // Calculate binned parameters and show the result
+//    ToyTools::DrawBins(model,label);
+
+//    B0toD0pipiModel model(B0toD0pipiModelType::Belle);
+//    const str label("bdk2");
+//    vectd mABsqv;
+//    vectd mACsqv;
+//    const int NEve = 10000;
+//    ToyTools::GenerateDalitzPlot(model,NEve,mABsqv,mACsqv);
+//    ToyTools::SaveDPTree(label,mABsqv,mACsqv);
+//    ToyTools::GenerateEachResonance(model,10000);
+
+    return 0;
 //  }
-//  ofile.close();
 
-  ToyDblDalitzGen gen;
-  RooDataSet* ds = gen.GenerateCP(1000);
-  ds->Print();
+//  ToyResModel::InitResolution()
+//  if(m_gen){
+//    ToyDblDalitzGen gen;
 
-  return 0;
+//    if(m_flv || m_notag){
+//      RooDataSet* dsflv = gen.GenerateFlv(100000);
+//      dsflv->Print();
+//      ToyTools::SaveFlvGenTree("",dsflv);
+//    }
+
+//    if(m_cp || m_sim){
+//      RooDataSet* dscp = gen.GenerateCP(50000,50000);
+//      dscp->Print();
+//      ToyTools::SaveCPGenTree("",dscp);
+//    }
+
+//    if(m_dd || m_sim){
+//      RooDataSet* dsdbldlz = gen.GenerateDblDlz(100000);
+//      dsdbldlz->Print();
+//      ToyTools::SaveDblDlzGenTree("",dsdbldlz);
+//    }
+//  }
+
+//  if(m_fit){
+//    if(m_notag) ToyTools::LifetimeFit();
+//    if(m_flv)   ToyTools::FlvFit();
+//    if(m_cp)    ToyTools::CPFit(false);
+//    if(m_dd)    ToyTools::DblDlzFit(true);
+//    if(m_sim)   ToyTools::SimFit(true);
+//  }
+//  B0toD0pipiModel model;
+//  DrawResonances artist(&model);
+//  artist.Draw();
+
+// return 0;
 }

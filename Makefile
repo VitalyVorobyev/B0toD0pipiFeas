@@ -1,12 +1,13 @@
-Sources=main.cpp drawbdparams.cpp toyflvpdf.cpp toycppdf.cpp toydbldalitzpdf.cpp toydbldalitzgen.cpp toydbldalitzfit.cpp abstoydbldalitz.cpp
-Executable=fsbl
-CFlags=-c -Wall -g -Iinc -std=c++11 -I. `root-config --cflags`
-LDFlags= -I. -Wl,--no-as-needed `root-config --glibs` -lm -lstdc++ -lRooFit -lRooFitCore -ldalitz
-ObjectDir=obj/
 SourceDir=src/
+ObjectDir=obj/
+BinDir=bin/
+Sources=$(notdir $(wildcard $(SourceDir)*.cpp))
+Executable=fsbl
+CFlags=-c -Wall -g -Iinc -I. `root-config --cflags` -std=c++14
+LDFlags= -I. -Wl,--no-as-needed `root-config --glibs` -lm -lstdc++ -lMinuit2 -ldalitz -ltatami -lheptevt -lhepevt -ldalitzfit -lfaddeeva -llinal -lboost_chrono
 BinDir=bin/
 
-CC=g++
+CC=g++ -O2
 RM=rm
 
 #!!!!!DO NOT EDIT ANYTHING UNDER THIS LINE!!!!!
