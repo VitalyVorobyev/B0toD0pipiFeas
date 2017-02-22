@@ -73,6 +73,7 @@ def rect_subrange(data, cuts, limits):
     ymin, ymax = val_to_idx(cuts[2:], ygrid, limits[2:])
     return data[xmin:xmax, ymin:ymax]
 
+<<<<<<< HEAD
 def max_filter(val, max_val=1):
     """ Fixing bugs in data... """
     return 0 if abs(val) > max_val else val
@@ -101,13 +102,24 @@ def calculus(apre, apim, anre, anim, bug_flags):
         phin = 0.0001
     if phip == 0:
         phip = 0.0001
+=======
+def calculus(apre, apim, anre, anim):
+    """ Cartesian into polar """
+    ampp, ampn = complex(apre, apim), complex(anre, anim)
+    absp, phip = polar(ampp)
+    absn, phin = polar(ampn)
+    delta = phase(ampn / ampp)
+>>>>>>> d6a9c558333f07b9e647f0af826a86cbc19cc101
     return (absp, phip, apre, apim, delta), \
            (absn, phin, anre, anim, -delta)
 
 def ampl_map(data, grid_size, limits, masses):
     """ Binning color map """
     gsize1, gsize2 = int(0.4*grid_size), int(0.4*grid_size)
+<<<<<<< HEAD
 
+=======
+>>>>>>> d6a9c558333f07b9e647f0af826a86cbc19cc101
     ab_list, ac_list = data[:, 0], data[:, 1]
     bc_list = mbc(ab_list, ac_list, masses)
 
@@ -118,12 +130,17 @@ def ampl_map(data, grid_size, limits, masses):
     bc_map = np.zeros((gsize1, gsize1, 5), dtype=float)
     ac_map = np.zeros((gsize2, gsize1, 5), dtype=float)
 
+<<<<<<< HEAD
     bug_flags = [False] * 4
     for abidx, acidx, bcidx, vals in zip(ab_ind, ac_ind, bc_ind, data):
         apre, apim, anre, anim = vals[2:]
         posi, nega = calculus(apre, apim, anre, anim, bug_flags)
         bug_flags = [abs(posi[2]) < 0.5, abs(posi[3]) < 0.5,
                      abs(nega[2]) < 0.5, abs(nega[3]) < 0.5]
+=======
+    for abidx, acidx, bcidx, vals in zip(ab_ind, ac_ind, bc_ind, data):
+        posi, nega = calculus(*vals[2:])
+>>>>>>> d6a9c558333f07b9e647f0af826a86cbc19cc101
         bc_map[abidx, acidx, :], bc_map[acidx, abidx, :] = posi[:], nega[:]
         ac_map[bcidx, abidx, :], ac_map[bcidx, acidx, :] = posi[:], nega[:]
         if abidx == acidx:
