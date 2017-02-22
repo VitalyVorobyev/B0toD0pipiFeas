@@ -1,0 +1,8 @@
+1: C = 1, S = -9.0784e-17, K = 0.5, Kb = 0.5, Q = 1
+2: C = -nan, S = -nan, K = 0, Kb = 0, Q = -nan
+3: C = -nan, S = -nan, K = 0, Kb = 0, Q = -nan
+4: C = -nan, S = -nan, K = 0, Kb = 0, Q = -nan
+5: C = -nan, S = -nan, K = 0, Kb = 0, Q = -nan
+6: C = -nan, S = -nan, K = 0, Kb = 0, Q = -nan
+7: C = -nan, S = -nan, K = 0, Kb = 0, Q = -nan
+8: C = -nan, S = -nan, K = 0, Kb = 0, Q = -nan
