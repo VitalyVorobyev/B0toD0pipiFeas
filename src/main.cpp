@@ -74,15 +74,19 @@ int parse_input(int argc, char** argv) {
 
 int main(int argc, char** argv) {
 //  ToyTools::DrawKspipiBins();
-    ToyTools::DrawKuzBins();
+//    ToyTools::DrawKuzBins();
 ////    return 0;
-    const str klabel("kuz_bdpp_broken");
-    vectd mABsqv;
-    vectd mACsqv;
-    const int NEve = 10000;
-    ToyTools::GenerateKuzminPlot(NEve, &mABsqv, &mACsqv);
-    ToyTools::SaveDPTree(klabel, mABsqv, mACsqv);
-    ToyTools::GetAKuzBr();
+    const str klabel("kuz_bdpp");
+    ToyTools::TabulateKuzmin(klabel, 1000);
+//    return 0;
+//    vectd mABsqv;
+//    vectd mACsqv;
+//    const int NEve = 1000000;
+//    ToyTools::WriteKuzminPlot(NEve, klabel);
+
+//    ToyTools::GenerateKuzminPlot(NEve, &mABsqv, &mACsqv);
+//    ToyTools::SaveDPTree(klabel, mABsqv, mACsqv);
+//    ToyTools::GetAKuzBr();
 
   //  ToyTools::GammaUBFit();
 //  return 0;

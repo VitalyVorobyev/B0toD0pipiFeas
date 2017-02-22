@@ -36,6 +36,11 @@ typedef std::vector<unsigned> vectu;
 typedef KuzBtoDpipiAmp KAmp;
 
 using std::to_string;
+using std::ofstream;
+using std::endl;
+
+const str ToyTools::txt_data_path =
+        "/home/vitaly/B0toD0pipi/B0toD0pipiFeas/data/txt/";
 
 void ToyTools::DrawBins(AbsDalitzModel* model, const str& label) {
     ModelIntegral integrator(model);
@@ -85,6 +90,23 @@ void ToyTools::GenerateKuzminPlot(const uint64_t NEvents,
     generator.Generate(NEvents, mABsqv, mACsqv);
 }
 
+void ToyTools::TabulateAmpl(const AbsDalitzModel& model,
+                         const str& label, const unsigned gsize) {
+    const str fname = txt_data_path + "tbl_" + label + ".txt";
+    model.Tabulate(fname, gsize);
+}
+
+void ToyTools::TabulateKuzmin(const str& label, const unsigned gsize) {
+    KAmp model;
+    TabulateAmpl(model, label, gsize);
+}
+
+void ToyTools::WriteKuzminPlot(const uint64_t NEvents, const str& label) {
+    KAmp model;
+    DalitzGenerator generator(&model);
+    generator.WriteDDist(NEvents, txt_data_path + "ddist_" + label + ".txt");
+}
+
 void ToyTools::GetAKuzBr(void) {
     KAmp model;
     DalitzMCIntegral mcint(&model);
@@ -120,6 +142,17 @@ void ToyTools::Generate_BDK_DKspipiDP(const uint64_t NEvents, vectd* mABsqv,
         mACsqv->push_back(mAC);
         flvv->push_back(flv);
     }
+}
+
+void ToyTools::SaveDP(const str& label, const vectd& mABsqv,
+                      const vectd& mACsqv) {
+    ofstream file(txt_data_path + "ddist_" + label + ".txt", ofstream::out);
+    for (auto itAB = mABsqv.begin(), itAC = mACsqv.begin();
+         itAB != mABsqv.end() && itAC != mACsqv.end();
+         itAB++, itAC++) {
+        file << *itAB << " " << *itAC << endl;
+    }
+    file.close();
 }
 
 void ToyTools::SaveDPTree(const str& label, const vectd& mABsqv,

@@ -1,0 +1,72 @@
+
+[1mRooFit v3.60 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+DalitzMCIntegral: calculating branchings with 1000000 points...
+0 counts
+100000 counts
+200000 counts
+300000 counts
+400000 counts
+500000 counts
+600000 counts
+700000 counts
+800000 counts
+900000 counts
+Full integral = 4759.73 +- 41.1297 (0.864118%)
+ int = 4.80e-02 +- 2.32e-04 (4.83e-01%) for Dv*(2010)
+ int = 3.62e+01 +- 1.01e-01 (2.80e-01%) for D*0(2400)
+ int = 2.41e+03 +- 1.11e+01 (4.61e-01%) for D*2(2460)
+ int = 1.28e-02 +- 3.71e-05 (2.90e-01%) for D*J(2760)
+ int = 2.10e+03 +- 4.02e+01 (1.91e+00%) for rho(770)
+ int = 9.71e-02 +- 2.14e-04 (2.21e-01%) for rho(1450)
+ int = 1.13e-02 +- 2.36e-05 (2.10e-01%) for rho(1700)
+ int = 2.29e+02 +- 6.11e-01 (2.67e-01%) for f2(1270)
+ int = 1.29e+02 +- 1.01e-01 (7.87e-02%) for f0(500)
+ int = 1.19e+01 +- 3.56e-02 (2.98e-01%) for f0(980)
+ int = 6.52e+00 +- 7.15e-03 (1.10e-01%) for f0(2020)
+ int = 1.18e+01 +- -nan (-nan%) for NR
+
+Br = (1.01e-03 +- 9.99e-06)%, rel err 9.90e-01% for Dv*(2010)
+Br = (7.60e-01 +- 6.90e-03)%, rel err 9.08e-01% for D*0(2400)
+Br = (5.07e+01 +- 4.96e-01)%, rel err 9.80e-01% for D*2(2460)
+Br = (2.69e-04 +- 2.45e-06)%, rel err 9.12e-01% for D*J(2760)
+Br = (4.41e+01 +- 9.26e-01)%, rel err 2.10e+00% for rho(770)
+Br = (2.04e-03 +- 1.82e-05)%, rel err 8.92e-01% for rho(1450)
+Br = (2.36e-04 +- 2.10e-06)%, rel err 8.89e-01% for rho(1700)
+Br = (4.81e+00 +- 4.35e-02)%, rel err 9.04e-01% for f2(1270)
+Br = (2.71e+00 +- 2.35e-02)%, rel err 8.68e-01% for f0(500)
+Br = (2.51e-01 +- 2.29e-03)%, rel err 9.14e-01% for f0(980)
+Br = (1.37e-01 +- 1.19e-03)%, rel err 8.71e-01% for f0(2020)
+Br = (2.47e-01 +- -nan)%, rel err -nan% for NR
+Branchings sum: 1.04e+02
+Norm     = 1.80e+09
+Majorant = 4.93e+06
+1: C = 8.66e-01, S = 6.32e-02, K = 1.87e-01, Kb = 1.02e-01, Q = 7.54e-01
+2: C = 3.00e-01, S = -1.21e-01, K = 5.39e-02, Kb = 1.95e-02, Q = 1.05e-01
+3: C = -3.75e-03, S = -3.27e-01, K = 4.69e-02, Kb = 1.36e-02, Q = 1.07e-01
+4: C = -4.70e-01, S = -3.74e-01, K = 3.17e-02, Kb = 1.21e-02, Q = 3.61e-01
+5: C = -9.31e-01, S = -2.01e-02, K = 2.34e-01, Kb = 1.77e-01, Q = 8.68e-01
+6: C = -5.11e-01, S = 4.42e-01, K = 4.28e-02, Kb = 9.39e-03, Q = 4.57e-01
+7: C = 9.39e-03, S = 6.99e-01, K = 2.98e-02, Kb = 5.71e-03, Q = 4.88e-01
+8: C = 6.39e-01, S = 5.86e-01, K = 2.30e-02, Kb = 1.21e-02, Q = 7.52e-01
+Grid size: 1000
+min value: 4.02e+00
+max value: 2.64e+01
+Grid size: 1000
+min value: 4.02e+00
+max value: 2.64e+01
+Majorant is set equals 2.38e+06
+Generating 10000 events...
+1000 events
+2000 events
+3000 events
+4000 events
+5000 events
+6000 events
+7000 events
+8000 events
+9000 events
+10000 events
+Done!. Efficiency 1.99e-03

@@ -44,7 +44,7 @@ void DrawBDParams::DrawBDP(const str& infile,
     const str binfile = "params/" + infile;
     cout << "DrawBDParams::DrawBDP: infile " << binfile << endl;
 
-    ifstream ifile(binfile.c_str());
+    ifstream ifile(binfile);
     if (!ifile.is_open()) {
         cout << "DrawBDParams::DrawBDP: Can't find file " << binfile << endl;
         return;

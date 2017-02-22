@@ -26,9 +26,16 @@ class ToyTools {
     static void InitTools(void);
 
     static void DrawBins(AbsDalitzModel* model, const std::string& label);
+    static void TabulateAmpl(const AbsDalitzModel& model,
+                             const std::string& label, const unsigned gsize);
     static void DrawKspipiBins(void);
     static void DrawB0toD0pipiBins(void);
     static void DrawKuzBins(void);
+
+    static void TabulateKuzmin(const std::string& label, const unsigned gsize);
+
+    static void WriteKuzminPlot(const uint64_t NEvents,
+                                const std::string& label);
 
     static void GenerateKuzminPlot(const uint64_t NEvents,
                                    std::vector<double>* mABsqv,
@@ -49,6 +56,10 @@ class ToyTools {
 
     static void GetAKuzBr(void);
 
+    static void SaveDP(const std::string& label,
+                       const std::vector<double>& mABsqv,
+                       const std::vector<double>& mACsqv);
+
     static void SaveDPTree(const std::string& label,
                            const std::vector<double>& mABsqv,
                            const std::vector<double>& mACsqv);
@@ -59,6 +70,11 @@ class ToyTools {
     static void addVector(std::vector<double>* v1,
                           const std::vector<double>& v2);
     static void GammaUBFit(void);
+
+    /**
+     * @brief txt_data_path. Relative path to txt data files
+     */
+    static const std::string txt_data_path;
 
     /// untagged lifetime fit
 //    static void LifetimeFit(void);
