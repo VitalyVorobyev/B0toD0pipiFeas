@@ -3,6 +3,7 @@
 import sys
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+import matplotlib.ticker as ticker
 import numpy as np
 import dalitz_tools as dt
 import plot_style as plst
@@ -51,29 +52,39 @@ def tabular_data(fname, proj):
 def plot_real(data, lim_list, xtitle, ytitle, num=None):
     """ Real part of amplitude model """
     fig = plt.figure(num=num, figsize=FSIZE, dpi=DPI)
-    # plt.imshow(abs(data.T), cmap=CMAPS['reim'], origin='lower', norm=CNORM['reim'],
-    #            aspect='auto', extent=lim_list, interpolation=INTRPL)
+    limit = float(10**(int(np.log10(np.absolute(data).max())) + 1))
     plt.imshow(data.T, cmap=CMAPS['reim'], origin='lower', norm=CNORM['reim'],
-               aspect='auto', extent=lim_list, interpolation=INTRPL)
-    cbar = plt.colorbar(pad=0.02)
-    cbar.ax.tick_params(labelsize=18)
+               aspect='auto', extent=lim_list, interpolation=INTRPL,
+               vmin=-limit, vmax=limit)
+    cbar = plt.colorbar(pad=0.02, ticks=make_ticks(limit, 10, 4),
+                        format=ticker.LogFormatterMathtext())
+    cbar.ax.tick_params(labelsize=14)
     plt.ylabel(ytitle, fontsize=LBL_SIZE)
     plt.xlabel(xtitle, fontsize=LBL_SIZE)
     plt.axis(BOUND_COEF*lim_list)
     plt.subplots_adjust(**PADS)
     return fig
 
+def make_ticks(limit, factor=10., num=3):
+    """ Double log scale """
+    result = []
+    for power in range(num):
+        result.append(-limit / factor**power)
+    for power in reversed(range(num)):
+        result.append(limit / factor**power)
+    return result
+
 def plot_imag(data, lim_list, xtitle, ytitle, num=None):
     """ Imaginary part of amplitude model """
+    # data[np.absolute(data) > 1] = 0
     fig = plt.figure(num=num, figsize=FSIZE, dpi=DPI)
+    limit = float(10**(int(np.log10(np.absolute(data).max())) + 1))
     plt.imshow(data.T, cmap=CMAPS['reim'], origin='lower', norm=CNORM['reim'],
-               aspect='auto', extent=lim_list, interpolation=INTRPL)
-    ticks = np.logspace()
-    cbar = plt.colorbar(pad=0.02)
-    cbar = plt.colorbar(ticks=PHASE_TICKS)
-    cbar.ax.set_yticklabels(PHASE_LBL)
-    cbar.ax.tick_params(labelsize=18)
-    cbar.ax.tick_params(labelsize=18)
+               aspect='auto', extent=lim_list, interpolation=INTRPL,
+               vmin=-limit, vmax=limit)
+    cbar = plt.colorbar(pad=0.02, ticks=make_ticks(limit, 10, 4),
+                        format=ticker.LogFormatterMathtext())
+    cbar.ax.tick_params(labelsize=14)
     plt.ylabel(ytitle, fontsize=LBL_SIZE)
     plt.xlabel(xtitle, fontsize=LBL_SIZE)
     plt.axis(BOUND_COEF*lim_list)
@@ -86,7 +97,7 @@ def plot_delta(data, lim_list, xtitle, ytitle, num=None):
     fig = plt.figure(num=num, figsize=FSIZE, dpi=DPI)
     plt.imshow(data.T, cmap=CMAPS['phase'], origin='lower', aspect='auto', extent=lim_list,
                vmin=-np.pi, vmax=np.pi, interpolation=INTRPL)
-    cbar = plt.colorbar(ticks=PHASE_TICKS)
+    cbar = plt.colorbar(pad=0.02, ticks=PHASE_TICKS)
     cbar.ax.set_yticklabels(PHASE_LBL)
     cbar.ax.tick_params(labelsize=18)
     plt.ylabel(ytitle, fontsize=LBL_SIZE)
@@ -101,7 +112,7 @@ def plot_phi(data, lim_list, xtitle, ytitle, num=None):
     fig = plt.figure(num=num, figsize=FSIZE, dpi=DPI)
     plt.imshow(data.T, cmap=CMAPS['phase'], origin='lower', aspect='auto', extent=lim_list,
                vmin=-np.pi, vmax=np.pi, interpolation=INTRPL)
-    cbar = plt.colorbar(ticks=PHASE_TICKS)
+    cbar = plt.colorbar(pad=0.02, ticks=PHASE_TICKS)
     cbar.ax.set_yticklabels(PHASE_LBL)
     cbar.ax.tick_params(labelsize=18)
     plt.ylabel(ytitle, fontsize=LBL_SIZE)
@@ -135,6 +146,7 @@ def plot_mbc(data, limits, mbclo, mbchi, mablo, mabhi, col='b-', num=None):
 def save_eps(label, cmd, pdi=DPI):
     """ eps file """
     plt.savefig('pics/' + cmd + '_' + label + '.eps', format='eps', dpi=pdi)
+    plt.savefig('pics/png/' + cmd + '_' + label + '.png', format='png', dpi=pdi)
 
 def make_plot():
     """ Main driver """

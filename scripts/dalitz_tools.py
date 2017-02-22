@@ -73,18 +73,41 @@ def rect_subrange(data, cuts, limits):
     ymin, ymax = val_to_idx(cuts[2:], ygrid, limits[2:])
     return data[xmin:xmax, ymin:ymax]
 
-def calculus(apre, apim, anre, anim):
+def max_filter(val, max_val=1):
+    """ Fixing bugs in data... """
+    return 0 if abs(val) > max_val else val
+
+def calculus(apre, apim, anre, anim, bug_flags):
     """ Cartesian into polar """
+    if bug_flags[0]:
+        apre = max_filter(apre)
+    if bug_flags[1]:
+        apim = max_filter(apim)
+    if bug_flags[2]:
+        anre = max_filter(anre)
+    if bug_flags[3]:
+        anim = max_filter(anim)
     ampp, ampn = complex(apre, apim), complex(anre, anim)
     absp, phip = polar(ampp)
     absn, phin = polar(ampn)
-    delta = phase(ampn / ampp)
+    if abs(ampp) == 0:
+        print ampp
+        delta = phase(ampn)
+    else:
+        delta = phase(ampn / ampp)
+    if delta == 0:
+        delta = 0.0001
+    if phin == 0:
+        phin = 0.0001
+    if phip == 0:
+        phip = 0.0001
     return (absp, phip, apre, apim, delta), \
            (absn, phin, anre, anim, -delta)
 
 def ampl_map(data, grid_size, limits, masses):
     """ Binning color map """
     gsize1, gsize2 = int(0.4*grid_size), int(0.4*grid_size)
+
     ab_list, ac_list = data[:, 0], data[:, 1]
     bc_list = mbc(ab_list, ac_list, masses)
 
@@ -95,8 +118,12 @@ def ampl_map(data, grid_size, limits, masses):
     bc_map = np.zeros((gsize1, gsize1, 5), dtype=float)
     ac_map = np.zeros((gsize2, gsize1, 5), dtype=float)
 
+    bug_flags = [False] * 4
     for abidx, acidx, bcidx, vals in zip(ab_ind, ac_ind, bc_ind, data):
-        posi, nega = calculus(*vals[2:])
+        apre, apim, anre, anim = vals[2:]
+        posi, nega = calculus(apre, apim, anre, anim, bug_flags)
+        bug_flags = [abs(posi[2]) < 0.5, abs(posi[3]) < 0.5,
+                     abs(nega[2]) < 0.5, abs(nega[3]) < 0.5]
         bc_map[abidx, acidx, :], bc_map[acidx, abidx, :] = posi[:], nega[:]
         ac_map[bcidx, abidx, :], ac_map[bcidx, acidx, :] = posi[:], nega[:]
         if abidx == acidx:
