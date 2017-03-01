@@ -133,12 +133,12 @@ void DrawBDParams::DrawBDP(const str& infile,
             break;
         case 2:
             bin_hist->SetBinContent(bin_hist->FindBin(mbc, mp), bin);
-            mbc = phsp.GetmBCsq(mm, mp);
+            mbc = phsp.m3sq(mm, mp);
             bin_hist->SetBinContent(bin_hist->FindBin(mbc, mm), bin);
             break;
         case 3:
             bin_hist->SetBinContent(bin_hist->FindBin(mbc, mm), bin);
-            mbc = phsp.GetmBCsq(mm, mp);
+            mbc = phsp.m3sq(mm, mp);
             bin_hist->SetBinContent(bin_hist->FindBin(mbc, mp), bin);
             break;
         default:

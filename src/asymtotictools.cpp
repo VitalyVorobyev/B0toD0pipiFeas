@@ -18,7 +18,7 @@ typedef std::vector<double> vectd;
 using std::cout;
 using std::endl;
 
-AsymtoticTools::AsymtoticTools(SymDalitzModel* model,
+AsymtoticTools::AsymtoticTools(AbsSymDalitzModel* model,
                                const int gsize, const int phsize) :
     m_dpbin(new SmallDPBin(model)),
     m_model(model),
@@ -38,7 +38,7 @@ TTree* AsymtoticTools::GetTree(void) const {
 }
 
 int AsymtoticTools::Fill(void) {
-    const unsigned nbins = m_model->GetNBins();
+    const unsigned nbins = m_model->nbins();
     vectd Kp; Kp.resize(nbins, 0);
     vectd Km; Km.resize(nbins, 0);
     vectd sqKK; sqKK.resize(nbins, 0);
@@ -69,7 +69,7 @@ int AsymtoticTools::Fill(void) {
             P = m_dpbin->P();  // /Norm;
             Pb = m_dpbin->Pb();  // /Norm;
             wght = m_dpbin->Weight();
-            dpbin = std::abs(m_model->GetBin(mp, mm));
+            dpbin = std::abs(m_model->bin(mp, mm));
             m_tree->Fill();
 
             Kp[dpbin-1] += P;

@@ -21,7 +21,6 @@
 
 typedef std::string str;
 typedef std::vector<double> vectd;
-// typedef std::vector<int>    vecti;
 
 bool m_model = false;
 bool m_gen   = false;
@@ -75,18 +74,16 @@ int parse_input(int argc, char** argv) {
 int main(int argc, char** argv) {
 //  ToyTools::DrawKspipiBins();
 //    ToyTools::DrawKuzBins();
-////    return 0;
-    const str klabel("kuz_bdpp");
+    const str klabel("kuz_bdpp_1M_om");
     ToyTools::TabulateKuzmin(klabel, 1000);
-//    return 0;
 //    vectd mABsqv;
 //    vectd mACsqv;
-//    const int NEve = 1000000;
-//    ToyTools::WriteKuzminPlot(NEve, klabel);
+    const int NEve = 1000000;
+    ToyTools::WriteKuzminPlot(NEve, klabel);
 
 //    ToyTools::GenerateKuzminPlot(NEve, &mABsqv, &mACsqv);
 //    ToyTools::SaveDPTree(klabel, mABsqv, mACsqv);
-//    ToyTools::GetAKuzBr();
+    ToyTools::GetAKuzBr();
 
   //  ToyTools::GammaUBFit();
 //  return 0;

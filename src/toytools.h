@@ -15,6 +15,8 @@
 #include <vector>
 #include <cstdint>
 
+#include "mylibs/libDalitz/absdalitzmodel.h"
+#include "mylibs/libDalitz/abssymdalitzmodel.h"
 #include "mylibs/libDalitz/dalitzmodel.h"
 
 /**
@@ -26,7 +28,7 @@ class ToyTools {
     static void InitTools(void);
 
     static void DrawBins(AbsDalitzModel* model, const std::string& label);
-    static void TabulateAmpl(const AbsDalitzModel& model,
+    static void TabulateAmpl(const AbsSymDalitzModel& model,
                              const std::string& label, const unsigned gsize);
     static void DrawKspipiBins(void);
     static void DrawB0toD0pipiBins(void);

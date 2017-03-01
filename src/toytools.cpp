@@ -90,10 +90,18 @@ void ToyTools::GenerateKuzminPlot(const uint64_t NEvents,
     generator.Generate(NEvents, mABsqv, mACsqv);
 }
 
-void ToyTools::TabulateAmpl(const AbsDalitzModel& model,
-                         const str& label, const unsigned gsize) {
-    const str fname = txt_data_path + "tbl_" + label + ".txt";
-    model.Tabulate(fname, gsize);
+void ToyTools::TabulateAmpl(const AbsSymDalitzModel& model,
+                            const str& label, const unsigned gsize) {
+//    str fname = txt_data_path + "tblABAC_" + label + ".txt";
+//    model.TabulateABAC(fname, gsize);
+//    fname = txt_data_path + "tblABBC_" + label + ".txt";
+//    model.TabulateABBC(fname, gsize);
+//    fname = txt_data_path + "tblSymABAC_" + label + ".txt";
+//    model.TabulateSymABAC(fname, gsize);
+    str fname = txt_data_path + "tblSymABBC_" + label + ".txt";
+    model.TabulateSymABBC(fname, gsize);
+    fname = txt_data_path + "tblSymABAC_" + label + ".txt";
+    model.TabulateSymABAC(fname, gsize);
 }
 
 void ToyTools::TabulateKuzmin(const str& label, const unsigned gsize) {
@@ -189,7 +197,7 @@ void ToyTools::SaveDPTree(const str& label, const vectd& mABsqv,
     file->Close();
 }
 
-void ToyTools::GenerateEachResonance(DalitzModel* model,
+	void ToyTools::GenerateEachResonance(DalitzModel* model,
                                      const uint64_t NEvents) {
     DalitzGenerator generator(model);
     const int NRes = model->ResNum();
@@ -208,3 +216,4 @@ void ToyTools::GenerateEachResonance(DalitzModel* model,
     }
     subres.clear(); model->SetRVec(subres);
 }
+

@@ -14,7 +14,7 @@
 #include <vector>
 
 #include "mylibs/libDalitz/smalldpbin.h"
-#include "mylibs/libDalitz/symdalitzmodel.h"
+#include "mylibs/libDalitz/abssymdalitzmodel.h"
 
 #include "TH1.h"
 #include "TH2.h"
@@ -22,7 +22,7 @@
 
 class AsymtoticTools {
  public:
-    AsymtoticTools(SymDalitzModel* model, const int gsize = 1000,
+    AsymtoticTools(AbsSymDalitzModel* model, const int gsize = 1000,
                    const int phsize = 100);
 
     int Fill(void);
@@ -38,7 +38,7 @@ class AsymtoticTools {
 
  private:
     SmallDPBin* m_dpbin;
-    SymDalitzModel* m_model;
+    AbsSymDalitzModel* m_model;
 
     TH1I* m_h1d;
     TH2D* m_h2ph;
